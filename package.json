@@ -1,11 +1,17 @@
 {
-  "name": "nodejs-auth-jwt",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "https://github.com/Juminhark/nodejs-auth-jwt.git",
-  "author": "Ju minhark <wnalsgkr@gmail.com>",
-  "license": "MIT",
-  "devDependencies": {
-    "nodemon": "^2.0.7"
-  }
+	"name": "nodejs-auth-jwt",
+	"version": "1.0.0",
+	"main": "index.js",
+	"repository": "https://github.com/Juminhark/nodejs-auth-jwt.git",
+	"author": "Ju minhark <wnalsgkr@gmail.com>",
+	"license": "MIT",
+	"scripts": {
+		"start": "nodemon index.js"
+	},
+	"dependencies": {
+		"express": "^4.17.1"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.7"
+	}
 }
