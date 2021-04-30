@@ -14,24 +14,73 @@
 > yarn add -D nodemon
 ```
 
-## parameter 검증
+## validator : parameter 검증
 
-- [@hapi/joi](https://www.npmjs.com/package/@hapi/joi) : data validator for JavaScript.
+- JSON validator for Node.js and browser
+  - [ajv](https://www.npmjs.com/package/ajv):
+  - [ajv-formats](https://www.npmjs.com/package/ajv-formats)
 
 ```sh
-> yarn add @hapi/joi
+> yarn add ajv ajv-formats
+```
+
+- [ajv JSON schema](https://ajv.js.org/json-schema.html)
+
+```js
+const Ajv = require('ajv');
+const addFormats = require('ajv-formats');
+
+// Validation
+const ajv = new Ajv();
+addFormats(ajv, { mode: 'fast' }); // format : email
+
+const schema = {
+	type: 'object',
+	properties: {
+		name: { type: 'string', minLength: 6 },
+		email: { type: 'string', minLength: 6, format: 'email' },
+		password: { type: 'string', minLength: 6 },
+	},
+	required: ['name', 'email', 'password'],
+	additionalProperties: false,
+};
+
+const validate = ajv.compile(schema);
+
+router.post('/register', async (req, res) => {
+	// lets validate the data before we make a user
+	const validation = validate(req.body);
+	res.send(validation);
+});
+```
+
+## [bcrypt.js](https://github.com/dcodeIO/bcrypt.js#readme)
+
+```sh
+> yarn add bcryptjs
 ```
 
 ```js
-const Joi = require('@hapi/joi');
+const bcrypt = require('bcryptjs');
 
-// validate Definition
-const schema = {
-	name: Joi.string().min(6).required(),
-	email: Joi.string().min(6).required().email(),
-	password: Joi.string().min(6).required(),
-};
+// Hash passwords
+const salt = bcrypt.genSaltSync(10);
+const hashPassword = bcrypt.hashSync(req.body.password, salt);
+```
 
-// lets validate the data before we make a user
-const validation = Joi.validate(req.body, schema);
+## [jsonwebtoken](https://jwt.io/)
+
+```sh
+> yarn add jsonwebtoken
+```
+
+```js
+// Create and assign a token
+const token = jwt.sign(
+	{
+		_id: user._id,
+	},
+	process.env.TOKEN_SECRET
+);
+res.header('auth-token', token).send(token);
 ```
